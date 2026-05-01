@@ -20,6 +20,9 @@
     ],
     "client": [
       "io.github.jason13official.more_bows_and_arrows.MoreBowsAndArrowsClientFabric"
+    ],
+    "fabric-datagen": [
+      "io.github.jason13official.more_bows_and_arrows.MBADataGen"
     ]
   },
   "mixins": [

@@ -8,6 +8,12 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 }
 
+fabricApi {
+    configureDataGeneration() {
+        outputDirectory = project(':common').file('src/main/generated')
+    }
+}
+
 loom {
     def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
     if (aw.exists()) {

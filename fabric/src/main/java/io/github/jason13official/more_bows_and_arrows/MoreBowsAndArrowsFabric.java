@@ -1,6 +1,7 @@
 package io.github.jason13official.more_bows_and_arrows;
 
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModBlocks;
+import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModDataComponents;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModEntities;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModItems;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModMenus;
@@ -13,6 +14,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.impl.resource.DataResourceLoaderImpl;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -31,6 +33,7 @@ public class MoreBowsAndArrowsFabric implements ModInitializer {
     bind(BuiltInRegistries.BLOCK_ENTITY_TYPE, ModTiles::register);
     bind(BuiltInRegistries.MENU, ModMenus::register);
     bind(BuiltInRegistries.CREATIVE_MODE_TAB, ModTabs::register);
+    bind(BuiltInRegistries.DATA_COMPONENT_TYPE, ModDataComponents::register);
 
     MoreBowsAndArrows.init();
 
