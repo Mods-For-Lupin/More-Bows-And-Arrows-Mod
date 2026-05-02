@@ -1,4 +1,5 @@
 {
+  "description": {"translate": "bow_riser_type.more_bows_and_arrows.default"},
   "effects": [
     {"stat": "more_bows_and_arrows:accuracy", "operation": "add", "value": 0.2},
     {"stat": "more_bows_and_arrows:draw_speed", "operation": "multiply", "value": 0.95}

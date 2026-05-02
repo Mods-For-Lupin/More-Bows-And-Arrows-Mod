@@ -1,4 +1,5 @@
 {
+  "description": {"translate": "bow_limb_type.more_bows_and_arrows.alternate"},
   "effects": [
     {"stat": "more_bows_and_arrows:draw_speed", "operation": "set", "value": 1.0},
     {"stat": "more_bows_and_arrows:velocity", "operation": "set", "value": 1.0},

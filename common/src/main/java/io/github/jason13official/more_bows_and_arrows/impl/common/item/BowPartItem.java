@@ -18,9 +18,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 
 public class BowPartItem extends Item {
 
-  private static final ChatFormatting TITLE_FORMAT = ChatFormatting.GRAY;
-  private static final ChatFormatting DESCRIPTION_FORMAT = ChatFormatting.BLUE;
-
   private record PartSlot(
       DataComponentType<ResourceKey<BowPartDefinition>> component,
       ResourceKey<Registry<BowPartDefinition>> registry
@@ -50,7 +47,8 @@ public class BowPartItem extends Item {
       registries.lookup(slot.registry())
           .flatMap(reg -> reg.get(key))
           .ifPresent(h -> {
-            builder.accept(Component.literal("Durability Added: " + h.value().addedDurability()));
+            builder.accept(h.value().description().copy().withStyle(ChatFormatting.GRAY));
+            builder.accept(Component.literal("Durability Added: " + h.value().addedDurability()).withStyle(ChatFormatting.BLUE));
           });
       return;
     }

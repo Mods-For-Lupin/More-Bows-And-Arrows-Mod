@@ -1,0 +1,15 @@
+{
+  "itemGroup.moreBowsAndArrows": "More Bows and Arrows",
+
+  "item.more_bows_and_arrows.bow_limb": "Bow Limb",
+  "item.more_bows_and_arrows.bow_rest": "Bow Rest",
+  "item.more_bows_and_arrows.bow_riser": "Bow Riser",
+  "item.more_bows_and_arrows.bow_string": "Bow String",
+
+  "bow_limb_type.more_bows_and_arrows.default": "Standard Limb",
+  "bow_limb_type.more_bows_and_arrows.alternate": "Alternate Limb",
+
+  "bow_rest_type.more_bows_and_arrows.default": "Standard Rest",
+  "bow_riser_type.more_bows_and_arrows.default": "Standard Riser",
+  "bow_string_type.more_bows_and_arrows.default": "Standard String"
+}
