@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/stick"
+    "model": "more_bows_and_arrows:item/bow_limb",
+    "tints": [
+      {
+        "type": "more_bows_and_arrows:bow_part",
+        "default": 65280
+      }
+    ]
   }
 }
