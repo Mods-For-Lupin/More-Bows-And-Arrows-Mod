@@ -1,7 +1,6 @@
 package io.github.jason13official.more_bows_and_arrows;
 
-import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowLimbType;
-import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowStringType;
+import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowPartDefinition;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModBlocks;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModDataComponents;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModEntities;
@@ -48,8 +47,10 @@ public class MoreBowsAndArrowsNeoForge {
     EVENT_BUS = modEventBus;
 
     EVENT_BUS.addListener((Consumer<DataPackRegistryEvent.NewRegistry>) event -> {
-      event.dataPackRegistry(ModRegistries.BOW_LIMB_TYPE_KEY, BowLimbType.DIRECT_CODEC, BowLimbType.DIRECT_CODEC);
-      event.dataPackRegistry(ModRegistries.BOW_STRING_TYPE_KEY, BowStringType.DIRECT_CODEC, BowStringType.DIRECT_CODEC);
+      event.dataPackRegistry(ModRegistries.BOW_LIMB_TYPE_KEY,   BowPartDefinition.DIRECT_CODEC, BowPartDefinition.DIRECT_CODEC);
+      event.dataPackRegistry(ModRegistries.BOW_STRING_TYPE_KEY,  BowPartDefinition.DIRECT_CODEC, BowPartDefinition.DIRECT_CODEC);
+      event.dataPackRegistry(ModRegistries.BOW_RISER_TYPE_KEY,  BowPartDefinition.DIRECT_CODEC, BowPartDefinition.DIRECT_CODEC);
+      event.dataPackRegistry(ModRegistries.BOW_REST_TYPE_KEY,   BowPartDefinition.DIRECT_CODEC, BowPartDefinition.DIRECT_CODEC);
     });
 
     bind(Registries.BLOCK, ModBlocks::register);
@@ -83,21 +84,18 @@ public class MoreBowsAndArrowsNeoForge {
       if (!(entity instanceof ItemEntity otherItemEntity)) return;
       if (!otherItemEntity.getItem().has(ModDataComponents.BOW_STRING_TYPE)) return;
 
-      ResourceKey<BowLimbType> limbKey = itemEntity.getItem().get(ModDataComponents.BOW_LIMB_TYPE);
-      ResourceKey<BowStringType> stringKey = otherItemEntity.getItem().get(ModDataComponents.BOW_STRING_TYPE);
+      ResourceKey<BowPartDefinition> limbKey   = itemEntity.getItem().get(ModDataComponents.BOW_LIMB_TYPE);
+      ResourceKey<BowPartDefinition> stringKey = otherItemEntity.getItem().get(ModDataComponents.BOW_STRING_TYPE);
 
       int limbDur = level.registryAccess().lookup(ModRegistries.BOW_LIMB_TYPE_KEY)
-          .flatMap(reg -> reg.get(limbKey))
-          .map(h -> h.value().addedDurability())
-          .orElse(0);
+          .flatMap(reg -> reg.get(limbKey)).map(h -> h.value().addedDurability()).orElse(0);
       int stringDur = level.registryAccess().lookup(ModRegistries.BOW_STRING_TYPE_KEY)
-          .flatMap(reg -> reg.get(stringKey))
-          .map(h -> h.value().addedDurability())
-          .orElse(0);
+          .flatMap(reg -> reg.get(stringKey)).map(h -> h.value().addedDurability()).orElse(0);
 
       ItemStack stack = new ItemStack(ModItems.STRUNG_BOW);
-      stack.set(ModDataComponents.BOW_LIMB_TYPE, limbKey);
-      stack.set(ModDataComponents.BOW_STRING_TYPE, stringKey);
+      stack.set(ModDataComponents.BOW_LIMB_TYPE,   limbKey);
+      stack.set(ModDataComponents.BOW_STRING_TYPE,  stringKey);
+      // Keep default riser/rest — already set on STRUNG_BOW item via Properties.component(...)
       stack.set(DataComponents.MAX_DAMAGE, stack.get(DataComponents.MAX_DAMAGE) + limbDur + stringDur);
 
       event.getEntity().discard();
@@ -107,7 +105,6 @@ public class MoreBowsAndArrowsNeoForge {
   }
 
   public <T> void bind(ResourceKey<Registry<T>> registryKey, Consumer<BiConsumer<T, Identifier>> source) {
-
     EVENT_BUS.addListener((Consumer<RegisterEvent>) event -> {
       if (registryKey.equals(event.getRegistryKey())) {
         source.accept((t, rl) -> event.register(registryKey, rl, () -> t));

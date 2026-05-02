@@ -1,12 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "more_bows_and_arrows:item/bow_string",
+    "model": "more_bows_and_arrows:item/bow_rest",
     "tints": [
       {
         "type": "more_bows_and_arrows:bow_part",
-        "slot": 1,
-        "default": 65280
+        "slot": 3,
+        "default": 10921638
       }
     ]
   }

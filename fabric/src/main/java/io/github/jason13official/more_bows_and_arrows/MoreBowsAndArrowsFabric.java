@@ -1,7 +1,6 @@
 package io.github.jason13official.more_bows_and_arrows;
 
-import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowLimbType;
-import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowStringType;
+import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowPartDefinition;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModBlocks;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModDataComponents;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModEntities;
@@ -28,8 +27,10 @@ public class MoreBowsAndArrowsFabric implements ModInitializer {
   @Override
   public void onInitialize() {
 
-    DynamicRegistries.registerSynced(ModRegistries.BOW_LIMB_TYPE_KEY, BowLimbType.DIRECT_CODEC);
-    DynamicRegistries.registerSynced(ModRegistries.BOW_STRING_TYPE_KEY, BowStringType.DIRECT_CODEC);
+    DynamicRegistries.registerSynced(ModRegistries.BOW_LIMB_TYPE_KEY,   BowPartDefinition.DIRECT_CODEC);
+    DynamicRegistries.registerSynced(ModRegistries.BOW_STRING_TYPE_KEY,  BowPartDefinition.DIRECT_CODEC);
+    DynamicRegistries.registerSynced(ModRegistries.BOW_RISER_TYPE_KEY,  BowPartDefinition.DIRECT_CODEC);
+    DynamicRegistries.registerSynced(ModRegistries.BOW_REST_TYPE_KEY,   BowPartDefinition.DIRECT_CODEC);
 
     bind(BuiltInRegistries.BLOCK, ModBlocks::register);
     bind(BuiltInRegistries.ENTITY_TYPE, ModEntities::register);
@@ -46,7 +47,6 @@ public class MoreBowsAndArrowsFabric implements ModInitializer {
   }
 
   public <T> void bind(Registry<T> registry, Consumer<BiConsumer<T, Identifier>> source) {
-
     source.accept((t, rl) -> Registry.register(registry, rl, t));
   }
 

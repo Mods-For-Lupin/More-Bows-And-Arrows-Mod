@@ -1,0 +1,8 @@
+{
+  "effects": [
+    {"stat": "more_bows_and_arrows:accuracy", "operation": "add", "value": 0.2},
+    {"stat": "more_bows_and_arrows:draw_speed", "operation": "multiply", "value": 0.95}
+  ],
+  "added_durability": 75,
+  "color": 9127187
+}

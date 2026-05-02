@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "more_bows_and_arrows:item/bow_rest"
+  }
+}

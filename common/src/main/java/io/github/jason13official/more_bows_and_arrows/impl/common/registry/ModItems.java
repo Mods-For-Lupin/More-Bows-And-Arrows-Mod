@@ -14,6 +14,8 @@ public class ModItems {
 
   public static Item BOW_LIMB;
   public static Item BOW_STRING;
+  public static Item BOW_RISER;
+  public static Item BOW_REST;
   public static Item STRUNG_BOW;
 
   public static void register(BiConsumer<Item, Identifier> consumer) {
@@ -28,10 +30,22 @@ public class ModItems {
         .setId(key(MoreBowsAndArrows.identifier("bow_string"))));
     consumer.accept(BOW_STRING, MoreBowsAndArrows.identifier("bow_string"));
 
+    BOW_RISER = new BowPartItem(new Properties()
+        .component(ModDataComponents.BOW_RISER_TYPE, ModRegistries.DEFAULT_RISER)
+        .setId(key(MoreBowsAndArrows.identifier("bow_riser"))));
+    consumer.accept(BOW_RISER, MoreBowsAndArrows.identifier("bow_riser"));
+
+    BOW_REST = new BowPartItem(new Properties()
+        .component(ModDataComponents.BOW_REST_TYPE, ModRegistries.DEFAULT_REST)
+        .setId(key(MoreBowsAndArrows.identifier("bow_rest"))));
+    consumer.accept(BOW_REST, MoreBowsAndArrows.identifier("bow_rest"));
+
     STRUNG_BOW = new StrungBowItem(new Properties()
         .durability(50)
-        .component(ModDataComponents.BOW_LIMB_TYPE, ModRegistries.DEFAULT_LIMB)
-        .component(ModDataComponents.BOW_STRING_TYPE, ModRegistries.DEFAULT_STRING)
+        .component(ModDataComponents.BOW_LIMB_TYPE,   ModRegistries.DEFAULT_LIMB)
+        .component(ModDataComponents.BOW_STRING_TYPE,  ModRegistries.DEFAULT_STRING)
+        .component(ModDataComponents.BOW_RISER_TYPE,  ModRegistries.DEFAULT_RISER)
+        .component(ModDataComponents.BOW_REST_TYPE,   ModRegistries.DEFAULT_REST)
         .setId(key(MoreBowsAndArrows.identifier("strung_bow"))));
     consumer.accept(STRUNG_BOW, MoreBowsAndArrows.identifier("strung_bow"));
   }

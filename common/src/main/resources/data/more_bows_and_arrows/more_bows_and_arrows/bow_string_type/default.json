@@ -1,7 +1,9 @@
 {
-  "arrow_velocity_modifier": 1.0,
-  "arrow_accuracy_modifier": 1.0,
-  "draw_speed_modifier": 1.0,
+  "effects": [
+    {"stat": "more_bows_and_arrows:velocity", "operation": "multiply", "value": 1.0},
+    {"stat": "more_bows_and_arrows:draw_speed", "operation": "multiply", "value": 1.0},
+    {"stat": "more_bows_and_arrows:accuracy", "operation": "set", "value": 1.0}
+  ],
   "added_durability": 50,
   "color": 65280
 }

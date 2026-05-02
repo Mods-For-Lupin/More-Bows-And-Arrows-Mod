@@ -1,48 +1,32 @@
 package io.github.jason13official.more_bows_and_arrows.impl.common.component.bow;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.UnaryOperator;
+import net.minecraft.resources.Identifier;
 
 public class BowStats {
 
-  private BowStats(Map<BowStat<?>, Object> values) {
-    this.values = Map.copyOf(values);
-  }
-  private final Map<BowStat<?>, Object> values;
+  private final Map<Identifier, Float> values = new HashMap<>(BowStat.DEFAULTS);
+  private int addedDurability = 0;
 
-  public static Builder builder() {
-    return new Builder();
+  public float get(Identifier stat) {
+    return values.getOrDefault(stat, 0.0f);
   }
 
-  @SuppressWarnings("unchecked")
-  public <T> T get(BowStat<T> stat) {
-    return (T) values.getOrDefault(stat, stat.defaultValue());
+  public void apply(BowStatEffect effect) {
+    float current = get(effect.stat());
+    values.put(effect.stat(), switch (effect.operation()) {
+      case ADD      -> current + effect.value();
+      case MULTIPLY -> current * effect.value();
+      case SET      -> effect.value();
+    });
   }
 
-  public static final class Builder {
+  public void addDurability(int amount) {
+    addedDurability += amount;
+  }
 
-    private final Map<BowStat<?>, Object> values = new HashMap<>();
-
-    @SuppressWarnings("unchecked")
-    public <T> Builder set(BowStat<T> stat, T value) {
-      values.merge(stat, value, (a, b) -> stat.combiner().apply((T) a, (T) b));
-      return this;
-    }
-
-    public <T> Builder modify(BowStat<T> stat, UnaryOperator<T> fn) {
-      return set(stat, fn.apply(get(stat)));
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T get(BowStat<T> stat) {
-      return (T) values.getOrDefault(stat, stat.defaultValue());
-    }
-
-    public BowStats build() {
-      return new BowStats(values);
-    }
+  public int getAddedDurability() {
+    return addedDurability;
   }
 }

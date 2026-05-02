@@ -4,5 +4,5 @@ import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.
 
 public interface BowPart {
 
-  void applyTo(BowStats.Builder stats);
+  void applyTo(BowStats stats);
 }

@@ -4,6 +4,6 @@
     {"stat": "more_bows_and_arrows:velocity", "operation": "set", "value": 1.0},
     {"stat": "more_bows_and_arrows:crit_chance", "operation": "add", "value": 0.0}
   ],
-  "added_durability": 50,
-  "color": 16711680
+  "added_durability": 150,
+  "color": 15790080
 }

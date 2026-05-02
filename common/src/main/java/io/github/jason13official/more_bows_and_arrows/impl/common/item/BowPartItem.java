@@ -1,12 +1,14 @@
 package io.github.jason13official.more_bows_and_arrows.impl.common.item;
 
-import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowLimbType;
-import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowStringType;
+import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowPartDefinition;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModDataComponents;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModRegistries;
+import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
@@ -19,6 +21,18 @@ public class BowPartItem extends Item {
   private static final ChatFormatting TITLE_FORMAT = ChatFormatting.GRAY;
   private static final ChatFormatting DESCRIPTION_FORMAT = ChatFormatting.BLUE;
 
+  private record PartSlot(
+      DataComponentType<ResourceKey<BowPartDefinition>> component,
+      ResourceKey<Registry<BowPartDefinition>> registry
+  ) {}
+
+  private static final List<PartSlot> SLOTS = List.of(
+      new PartSlot(ModDataComponents.BOW_LIMB_TYPE,   ModRegistries.BOW_LIMB_TYPE_KEY),
+      new PartSlot(ModDataComponents.BOW_STRING_TYPE,  ModRegistries.BOW_STRING_TYPE_KEY),
+      new PartSlot(ModDataComponents.BOW_RISER_TYPE,  ModRegistries.BOW_RISER_TYPE_KEY),
+      new PartSlot(ModDataComponents.BOW_REST_TYPE,   ModRegistries.BOW_REST_TYPE_KEY)
+  );
+
   public BowPartItem(Properties properties) {
     super(properties);
   }
@@ -30,18 +44,15 @@ public class BowPartItem extends Item {
     HolderLookup.Provider registries = context.registries();
     if (registries == null) return;
 
-    if (stack.has(ModDataComponents.BOW_LIMB_TYPE)) {
-      ResourceKey<BowLimbType> key = stack.get(ModDataComponents.BOW_LIMB_TYPE);
-      registries.lookup(ModRegistries.BOW_LIMB_TYPE_KEY)
+    for (PartSlot slot : SLOTS) {
+      ResourceKey<BowPartDefinition> key = stack.get(slot.component());
+      if (key == null) continue;
+      registries.lookup(slot.registry())
           .flatMap(reg -> reg.get(key))
-          .ifPresent(h -> builder.accept(Component.literal("Durability Added: " + h.value().addedDurability())));
-    }
-
-    if (stack.has(ModDataComponents.BOW_STRING_TYPE)) {
-      ResourceKey<BowStringType> key = stack.get(ModDataComponents.BOW_STRING_TYPE);
-      registries.lookup(ModRegistries.BOW_STRING_TYPE_KEY)
-          .flatMap(reg -> reg.get(key))
-          .ifPresent(h -> builder.accept(Component.literal("Durability Added: " + h.value().addedDurability())));
+          .ifPresent(h -> {
+            builder.accept(Component.literal("Durability Added: " + h.value().addedDurability()));
+          });
+      return;
     }
   }
 }
