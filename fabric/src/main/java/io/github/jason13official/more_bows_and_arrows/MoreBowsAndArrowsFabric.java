@@ -1,22 +1,24 @@
 package io.github.jason13official.more_bows_and_arrows;
 
+import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowLimbType;
+import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowStringType;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModBlocks;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModDataComponents;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModEntities;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModItems;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModMenus;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModParticles;
+import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModRegistries;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModTabs;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModTiles;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.impl.resource.DataResourceLoaderImpl;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
+import net.fabricmc.fabric.api.resource.v1.DataResourceLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -25,6 +27,9 @@ public class MoreBowsAndArrowsFabric implements ModInitializer {
 
   @Override
   public void onInitialize() {
+
+    DynamicRegistries.registerSynced(ModRegistries.BOW_LIMB_TYPE_KEY, BowLimbType.DIRECT_CODEC);
+    DynamicRegistries.registerSynced(ModRegistries.BOW_STRING_TYPE_KEY, BowStringType.DIRECT_CODEC);
 
     bind(BuiltInRegistries.BLOCK, ModBlocks::register);
     bind(BuiltInRegistries.ENTITY_TYPE, ModEntities::register);
@@ -37,7 +42,7 @@ public class MoreBowsAndArrowsFabric implements ModInitializer {
 
     MoreBowsAndArrows.init();
 
-    DataResourceLoaderImpl.get(PackType.SERVER_DATA).registerReloadListener(MoreBowsAndArrows.identifier(Constants.MOD_ID), new ResourceReloadListener());
+    DataResourceLoader.get().registerReloadListener(MoreBowsAndArrows.identifier(Constants.MOD_ID), new ResourceReloadListener());
   }
 
   public <T> void bind(Registry<T> registry, Consumer<BiConsumer<T, Identifier>> source) {

@@ -1,13 +1,14 @@
 package io.github.jason13official.more_bows_and_arrows;
 
-import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.LimbData;
-import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.StringData;
+import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowLimbType;
+import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowStringType;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModBlocks;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModDataComponents;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModEntities;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModItems;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModMenus;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModParticles;
+import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModRegistries;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModTabs;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModTiles;
 import java.util.List;
@@ -27,7 +28,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -35,6 +35,7 @@ import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 @Mod(Constants.MOD_ID)
@@ -45,6 +46,11 @@ public class MoreBowsAndArrowsNeoForge {
   public MoreBowsAndArrowsNeoForge(final IEventBus modEventBus) {
 
     EVENT_BUS = modEventBus;
+
+    EVENT_BUS.addListener((Consumer<DataPackRegistryEvent.NewRegistry>) event -> {
+      event.dataPackRegistry(ModRegistries.BOW_LIMB_TYPE_KEY, BowLimbType.DIRECT_CODEC, BowLimbType.DIRECT_CODEC);
+      event.dataPackRegistry(ModRegistries.BOW_STRING_TYPE_KEY, BowStringType.DIRECT_CODEC, BowStringType.DIRECT_CODEC);
+    });
 
     bind(Registries.BLOCK, ModBlocks::register);
     bind(Registries.ENTITY_TYPE, ModEntities::register);
@@ -66,32 +72,37 @@ public class MoreBowsAndArrowsNeoForge {
     }
 
     NeoForge.EVENT_BUS.addListener((Consumer<EntityTickEvent.Pre>) event -> {
-      if (event.getEntity() instanceof ItemEntity itemEntity && itemEntity.getItem().has(ModDataComponents.BOW_LIMB_DATA)) {
+      if (!(event.getEntity() instanceof ItemEntity itemEntity)) return;
+      if (!itemEntity.getItem().has(ModDataComponents.BOW_LIMB_TYPE)) return;
+      if (!(event.getEntity().level() instanceof ServerLevel level)) return;
 
-        if (event.getEntity().level() instanceof ServerLevel level) {
-          List<Entity> entities = level.getEntities(event.getEntity(), event.getEntity().getBoundingBox().inflate(1.0D));
+      List<Entity> entities = level.getEntities(event.getEntity(), event.getEntity().getBoundingBox().inflate(1.0D));
+      if (entities.isEmpty()) return;
 
-          if (entities.isEmpty()) return;
+      Entity entity = entities.getFirst();
+      if (!(entity instanceof ItemEntity otherItemEntity)) return;
+      if (!otherItemEntity.getItem().has(ModDataComponents.BOW_STRING_TYPE)) return;
 
-          Entity entity = entities.getFirst();
-          if (entity instanceof ItemEntity otherItemEntity && otherItemEntity.getItem().has(ModDataComponents.BOW_STRING_DATA)) {
+      ResourceKey<BowLimbType> limbKey = itemEntity.getItem().get(ModDataComponents.BOW_LIMB_TYPE);
+      ResourceKey<BowStringType> stringKey = otherItemEntity.getItem().get(ModDataComponents.BOW_STRING_TYPE);
 
-            ItemStack stack = new ItemStack(ModItems.STRUNG_BOW);
+      int limbDur = level.registryAccess().lookup(ModRegistries.BOW_LIMB_TYPE_KEY)
+          .flatMap(reg -> reg.get(limbKey))
+          .map(h -> h.value().addedDurability())
+          .orElse(0);
+      int stringDur = level.registryAccess().lookup(ModRegistries.BOW_STRING_TYPE_KEY)
+          .flatMap(reg -> reg.get(stringKey))
+          .map(h -> h.value().addedDurability())
+          .orElse(0);
 
-            stack.set(ModDataComponents.BOW_LIMB_DATA, itemEntity.getItem().get(ModDataComponents.BOW_LIMB_DATA));
-            stack.set(ModDataComponents.BOW_STRING_DATA, otherItemEntity.getItem().get(ModDataComponents.BOW_STRING_DATA));
+      ItemStack stack = new ItemStack(ModItems.STRUNG_BOW);
+      stack.set(ModDataComponents.BOW_LIMB_TYPE, limbKey);
+      stack.set(ModDataComponents.BOW_STRING_TYPE, stringKey);
+      stack.set(DataComponents.MAX_DAMAGE, stack.get(DataComponents.MAX_DAMAGE) + limbDur + stringDur);
 
-            LimbData limbData = itemEntity.getItem().get(ModDataComponents.BOW_LIMB_DATA);
-            StringData stringData = otherItemEntity.getItem().get(ModDataComponents.BOW_STRING_DATA);
-
-            stack.set(DataComponents.MAX_DAMAGE, stack.get(DataComponents.MAX_DAMAGE) + limbData.addedDurability() + stringData.addedDurability());
-
-            event.getEntity().discard();
-            entity.discard();
-            Containers.dropItemStack(level, entity.position().x, entity.position().y, entity.position().z, stack);
-          }
-        }
-      }
+      event.getEntity().discard();
+      entity.discard();
+      Containers.dropItemStack(level, entity.position().x, entity.position().y, entity.position().z, stack);
     });
   }
 
