@@ -51,7 +51,7 @@ public record BowPartTintSource(int slotIndex, int defaultColor) implements Item
     if (key == null) return defaultColor;
     return level.registryAccess().lookup(registryKey)
         .flatMap(reg -> reg.get(key))
-        .map(h -> h.value().color())
+        .map(h -> ARGB.opaque(h.value().color()))
         .orElse(defaultColor);
   }
 

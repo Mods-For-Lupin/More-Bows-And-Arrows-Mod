@@ -8,6 +8,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.CreativeModeTab.DisplayItemsGenerator;
 import net.minecraft.world.item.CreativeModeTab.ItemDisplayParameters;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class ModTabs {
 
@@ -22,7 +24,10 @@ public class ModTabs {
 
   public static void register(BiConsumer<CreativeModeTab, Identifier> consumer) {
 
-    MORE_BOWS_AND_ARROWS = Services.registry().tabBuilder().displayItems((display, output) -> {
+    MORE_BOWS_AND_ARROWS = Services.registry().tabBuilder()
+        .icon(() -> new ItemStack(Items.BOW))
+        .title(Component.literal("More Bows and Arrows"))
+        .displayItems((display, output) -> {
       generateBowPartTypes(display, output);
     }).build();
 
