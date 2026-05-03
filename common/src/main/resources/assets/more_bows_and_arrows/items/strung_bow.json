@@ -1,6 +1,28 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/bow"
+    "model": "more_bows_and_arrows:item/strung_bow",
+    "tints": [
+      {
+        "type": "more_bows_and_arrows:strung_bow",
+        "slot": 0,
+        "default": 0
+      },
+      {
+        "type": "more_bows_and_arrows:strung_bow",
+        "slot": 1,
+        "default": 0
+      },
+      {
+        "type": "more_bows_and_arrows:strung_bow",
+        "slot": 2,
+        "default": 0
+      },
+      {
+        "type": "more_bows_and_arrows:strung_bow",
+        "slot": 3,
+        "default": 0
+      }
+    ]
   }
 }

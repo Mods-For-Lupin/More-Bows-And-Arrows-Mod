@@ -5,7 +5,7 @@
     "tints": [
       {
         "type": "more_bows_and_arrows:bow_part",
-        "slot": 1,
+        "slot": 3,
         "default": 65280
       }
     ]

@@ -1,6 +1,7 @@
 package io.github.jason13official.more_bows_and_arrows;
 
 import io.github.jason13official.more_bows_and_arrows.impl.client.item.BowPartTintSource;
+import io.github.jason13official.more_bows_and_arrows.impl.client.item.StrungBowTintSource;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.color.item.ItemTintSources;
 
@@ -12,5 +13,6 @@ public class MoreBowsAndArrowsClientFabric implements ClientModInitializer {
     MoreBowsAndArrowsClient.init();
 
     ItemTintSources.ID_MAPPER.put(MoreBowsAndArrows.identifier("bow_part"), BowPartTintSource.MAP_CODEC);
+    ItemTintSources.ID_MAPPER.put(MoreBowsAndArrows.identifier("strung_bow"), StrungBowTintSource.MAP_CODEC);
   }
 }

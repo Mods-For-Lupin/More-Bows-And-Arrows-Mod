@@ -17,15 +17,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-public record BowPartTintSource(int slotIndex, int defaultColor) implements ItemTintSource {
+public record StrungBowTintSource(int slotIndex, int defaultColor) implements ItemTintSource {
 
-  public static final MapCodec<BowPartTintSource> MAP_CODEC = RecordCodecBuilder.mapCodec(
+  public static final MapCodec<StrungBowTintSource> MAP_CODEC = RecordCodecBuilder.mapCodec(
       i -> i.group(
-          Codec.INT.fieldOf("slot").forGetter(BowPartTintSource::slotIndex),
-          ExtraCodecs.RGB_COLOR_CODEC.fieldOf("default").forGetter(BowPartTintSource::defaultColor)
-      ).apply(i, BowPartTintSource::new));
+          Codec.INT.fieldOf("slot").forGetter(StrungBowTintSource::slotIndex),
+          ExtraCodecs.RGB_COLOR_CODEC.fieldOf("default").forGetter(StrungBowTintSource::defaultColor)
+      ).apply(i, StrungBowTintSource::new));
 
-  public BowPartTintSource(int slotIndex, int defaultColor) {
+  public StrungBowTintSource(int slotIndex, int defaultColor) {
     this.slotIndex = slotIndex;
     this.defaultColor = ARGB.opaque(defaultColor);
   }

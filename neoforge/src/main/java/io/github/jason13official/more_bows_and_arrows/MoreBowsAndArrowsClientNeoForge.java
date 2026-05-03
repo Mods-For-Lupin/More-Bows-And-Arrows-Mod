@@ -2,6 +2,7 @@ package io.github.jason13official.more_bows_and_arrows;
 
 import io.github.jason13official.more_bows_and_arrows.impl.client.inventory.BowyerScreen;
 import io.github.jason13official.more_bows_and_arrows.impl.client.item.BowPartTintSource;
+import io.github.jason13official.more_bows_and_arrows.impl.client.item.StrungBowTintSource;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModMenus;
 import java.util.function.Consumer;
 import net.neoforged.bus.api.IEventBus;
@@ -24,6 +25,7 @@ public class MoreBowsAndArrowsClientNeoForge {
 
     modEventBus.addListener((Consumer<RegisterColorHandlersEvent.ItemTintSources>) event -> {
       event.register(MoreBowsAndArrows.identifier("bow_part"), BowPartTintSource.MAP_CODEC);
+      event.register(MoreBowsAndArrows.identifier("strung_bow"), StrungBowTintSource.MAP_CODEC);
     });
   }
 }
