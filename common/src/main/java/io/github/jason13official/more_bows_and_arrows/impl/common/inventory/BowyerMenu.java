@@ -46,36 +46,30 @@ public class BowyerMenu extends ItemCombinerMenu {
   @Override
   public void createResult() {
     ItemStack limb   = this.inputSlots.getItem(SLOT_LIMB);
+    ItemStack rest  = this.inputSlots.getItem(SLOT_REST);
+    ItemStack riser = this.inputSlots.getItem(SLOT_RISER);
     ItemStack string = this.inputSlots.getItem(SLOT_STRING);
 
-    if (limb.isEmpty() || string.isEmpty()) {
+    if (limb.isEmpty() || rest.isEmpty() || riser.isEmpty() || string.isEmpty()) {
       this.resultSlots.setItem(0, ItemStack.EMPTY);
       return;
     }
 
     ResourceKey<BowPartDefinition> limbKey   = limb.get(ModDataComponents.BOW_LIMB_TYPE);
+    ResourceKey<BowPartDefinition> restKey = rest.get(ModDataComponents.BOW_REST_TYPE);
+    ResourceKey<BowPartDefinition> riserKey = riser.get(ModDataComponents.BOW_RISER_TYPE);
     ResourceKey<BowPartDefinition> stringKey = string.get(ModDataComponents.BOW_STRING_TYPE);
 
-    if (limbKey == null || stringKey == null) {
+    if (limbKey == null || restKey == null || riserKey == null || stringKey == null) {
       this.resultSlots.setItem(0, ItemStack.EMPTY);
       return;
     }
 
     ItemStack result = new ItemStack(ModItems.STRUNG_BOW);
     result.set(ModDataComponents.BOW_LIMB_TYPE,   limbKey);
+    result.set(ModDataComponents.BOW_REST_TYPE, restKey);
+    result.set(ModDataComponents.BOW_RISER_TYPE, riserKey);
     result.set(ModDataComponents.BOW_STRING_TYPE, stringKey);
-
-    ItemStack rest  = this.inputSlots.getItem(SLOT_REST);
-    ItemStack riser = this.inputSlots.getItem(SLOT_RISER);
-
-    if (!rest.isEmpty()) {
-      ResourceKey<BowPartDefinition> restKey = rest.get(ModDataComponents.BOW_REST_TYPE);
-      if (restKey != null) result.set(ModDataComponents.BOW_REST_TYPE, restKey);
-    }
-    if (!riser.isEmpty()) {
-      ResourceKey<BowPartDefinition> riserKey = riser.get(ModDataComponents.BOW_RISER_TYPE);
-      if (riserKey != null) result.set(ModDataComponents.BOW_RISER_TYPE, riserKey);
-    }
 
     // Base durability (50) + added durability from all present parts resolved via registry
     int[] maxDamage = {50};

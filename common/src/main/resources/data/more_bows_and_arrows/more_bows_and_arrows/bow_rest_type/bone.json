@@ -1,0 +1,14 @@
+{
+  "added_durability": 20,
+  "color": 15261896,
+  "description": {
+    "translate": "bow_rest_type.more_bows_and_arrows.bone"
+  },
+  "effects": [
+    {
+      "operation": "add",
+      "stat": "more_bows_and_arrows:accuracy",
+      "value": 0.2
+    }
+  ]
+}

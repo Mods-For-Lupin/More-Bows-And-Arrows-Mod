@@ -30,6 +30,7 @@ tasks.named('compileJava', JavaCompile) {
 processResources {
     dependsOn(configurations.commonResources)
     from(configurations.commonResources)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.named('javadoc', Javadoc).configure {
@@ -42,4 +43,5 @@ tasks.named('sourcesJar', Jar) {
     from(configurations.commonJava)
     dependsOn(configurations.commonResources)
     from(configurations.commonResources)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

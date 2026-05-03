@@ -1,24 +1,24 @@
 {
-  "added_durability": 50,
-  "color": 65280,
+  "added_durability": 80,
+  "color": 9474192,
   "description": {
-    "translate": "bow_string_type.more_bows_and_arrows.default"
+    "translate": "bow_string_type.more_bows_and_arrows.iron_wire"
   },
   "effects": [
     {
       "operation": "multiply",
       "stat": "more_bows_and_arrows:velocity",
-      "value": 1.0
+      "value": 1.4
     },
     {
       "operation": "multiply",
       "stat": "more_bows_and_arrows:draw_speed",
-      "value": 1.0
+      "value": 0.75
     },
     {
       "operation": "set",
       "stat": "more_bows_and_arrows:accuracy",
-      "value": 1.0
+      "value": 0.8
     }
   ]
 }
