@@ -6,6 +6,13 @@
   "item.more_bows_and_arrows.bow_riser": "Bow Riser",
   "item.more_bows_and_arrows.bow_string": "Bow String",
 
+  "bow_stat.more_bows_and_arrows.velocity": "Velocity",
+  "bow_stat.more_bows_and_arrows.draw_speed": "Draw Speed",
+  "bow_stat.more_bows_and_arrows.accuracy": "Accuracy",
+  "bow_stat.more_bows_and_arrows.damage": "Damage",
+  "bow_stat.more_bows_and_arrows.crit_chance": "Crit Chance",
+  "bow_stat.more_bows_and_arrows.stealth": "Stealth",
+
   "bow_limb_type.more_bows_and_arrows.default": "Standard Limb",
   "bow_limb_type.more_bows_and_arrows.alternate": "Alternate Limb",
 

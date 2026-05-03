@@ -1,6 +1,8 @@
 package io.github.jason13official.more_bows_and_arrows.impl.common.item;
 
 import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowPartDefinition;
+import io.github.jason13official.more_bows_and_arrows.impl.common.component.bow.BowStatEffect;
+import io.github.jason13official.more_bows_and_arrows.impl.common.inventory.BowyerMenu;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModDataComponents;
 import io.github.jason13official.more_bows_and_arrows.impl.common.registry.ModRegistries;
 import java.util.List;
@@ -10,11 +12,16 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.Blocks;
 
 public class BowPartItem extends Item {
 
@@ -35,6 +42,20 @@ public class BowPartItem extends Item {
   }
 
   @Override
+  public InteractionResult useOn(UseOnContext context) {
+
+    if (context.getPlayer() == null) {
+      return super.useOn(context);
+    }
+
+    if (context.getLevel().getBlockState(context.getClickedPos()).is(Blocks.FLETCHING_TABLE)) {
+      context.getPlayer().openMenu(new SimpleMenuProvider((i, inventory, player) -> new BowyerMenu(i, inventory), Component.literal("Menu Title Here lol")));
+    }
+
+    return super.useOn(context);
+  }
+
+  @Override
   public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
     super.appendHoverText(stack, context, display, builder, tooltipFlag);
 
@@ -46,11 +67,30 @@ public class BowPartItem extends Item {
       if (key == null) continue;
       registries.lookup(slot.registry())
           .flatMap(reg -> reg.get(key))
-          .ifPresent(h -> {
-            builder.accept(h.value().description().copy().withStyle(ChatFormatting.GRAY));
-            builder.accept(Component.literal("Durability Added: " + h.value().addedDurability()).withStyle(ChatFormatting.BLUE));
-          });
+          .ifPresent(h -> appendPartTooltip(h.value(), builder));
       return;
     }
+  }
+
+  private static void appendPartTooltip(BowPartDefinition def, Consumer<Component> builder) {
+    builder.accept(def.description().copy().withStyle(ChatFormatting.GRAY));
+    for (BowStatEffect effect : def.effects()) {
+      builder.accept(statLine(effect.stat(), formatEffect(effect)));
+    }
+    builder.accept(Component.literal("Durability Added: " + def.addedDurability()).withStyle(ChatFormatting.BLUE));
+  }
+
+  static Component statLine(Identifier stat, String value) {
+    return Component.translatable("bow_stat." + stat.getNamespace() + "." + stat.getPath())
+        .append(Component.literal(": " + value))
+        .withStyle(ChatFormatting.DARK_GREEN);
+  }
+
+  static String formatEffect(BowStatEffect effect) {
+    return switch (effect.operation()) {
+      case ADD      -> String.format("%+.2f", effect.value());
+      case MULTIPLY -> String.format("x%.2f", effect.value());
+      case SET      -> String.format("%.2f", effect.value());
+    };
   }
 }

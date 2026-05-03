@@ -1,6 +1,7 @@
 package io.github.jason13official.more_bows_and_arrows.impl.common.component.bow;
 
 import io.github.jason13official.more_bows_and_arrows.MoreBowsAndArrows;
+import java.util.List;
 import java.util.Map;
 import net.minecraft.resources.Identifier;
 
@@ -12,6 +13,10 @@ public class BowStat {
   public static final Identifier DAMAGE      = MoreBowsAndArrows.identifier("damage");
   public static final Identifier CRIT_CHANCE = MoreBowsAndArrows.identifier("crit_chance");
   public static final Identifier STEALTH     = MoreBowsAndArrows.identifier("stealth");
+
+  public static final List<Identifier> ORDERED = List.of(
+      VELOCITY, DRAW_SPEED, ACCURACY, DAMAGE, CRIT_CHANCE, STEALTH
+  );
 
   public static final Map<Identifier, Float> DEFAULTS = Map.of(
       VELOCITY,    1.0f,
