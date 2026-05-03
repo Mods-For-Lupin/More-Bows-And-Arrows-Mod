@@ -6,6 +6,8 @@
   "item.more_bows_and_arrows.bow_riser": "Bow Riser",
   "item.more_bows_and_arrows.bow_string": "Bow String",
 
+  "item.more_bows_and_arrows.strung_bow": "Strung Bow",
+
   "bow_stat.more_bows_and_arrows.velocity": "Velocity",
   "bow_stat.more_bows_and_arrows.draw_speed": "Draw Speed",
   "bow_stat.more_bows_and_arrows.accuracy": "Accuracy",
@@ -14,9 +16,23 @@
   "bow_stat.more_bows_and_arrows.stealth": "Stealth",
 
   "bow_limb_type.more_bows_and_arrows.default": "Standard Limb",
-  "bow_limb_type.more_bows_and_arrows.alternate": "Alternate Limb",
+  "bow_limb_type.more_bows_and_arrows.bamboo": "Bamboo Limb",
+  "bow_limb_type.more_bows_and_arrows.bone": "Bone Limb",
+  "bow_limb_type.more_bows_and_arrows.iron": "Iron Limb",
+  "bow_limb_type.more_bows_and_arrows.obsidian": "Obsidian Limb",
 
   "bow_rest_type.more_bows_and_arrows.default": "Standard Rest",
+  "bow_rest_type.more_bows_and_arrows.bone": "Bone Rest",
+  "bow_rest_type.more_bows_and_arrows.crystal": "Crystal Rest",
+  "bow_rest_type.more_bows_and_arrows.feather": "Feather Rest",
+
   "bow_riser_type.more_bows_and_arrows.default": "Standard Riser",
-  "bow_string_type.more_bows_and_arrows.default": "Standard String"
+  "bow_riser_type.more_bows_and_arrows.bone": "Bone Riser",
+  "bow_riser_type.more_bows_and_arrows.gemstone": "Gemstone Riser",
+  "bow_riser_type.more_bows_and_arrows.iron": "Iron Riser",
+
+  "bow_string_type.more_bows_and_arrows.default": "Standard Bowstring",
+  "bow_string_type.more_bows_and_arrows.iron_wire": "Iron Wire Bowstring",
+  "bow_string_type.more_bows_and_arrows.sinew": "Sinew Bowstring",
+  "bow_string_type.more_bows_and_arrows.spider_silk": "Spider Silk Bowstring"
 }

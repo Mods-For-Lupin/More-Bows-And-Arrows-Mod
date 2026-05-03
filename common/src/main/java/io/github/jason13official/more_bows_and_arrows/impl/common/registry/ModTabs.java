@@ -39,9 +39,9 @@ public class ModTabs {
       CreativeModeTab.Output output
   ) {
     populateSlot(params, output, ModRegistries.BOW_LIMB_TYPE_KEY,   ModDataComponents.BOW_LIMB_TYPE,   ModItems.BOW_LIMB);
-    populateSlot(params, output, ModRegistries.BOW_STRING_TYPE_KEY,  ModDataComponents.BOW_STRING_TYPE,  ModItems.BOW_STRING);
-    populateSlot(params, output, ModRegistries.BOW_RISER_TYPE_KEY,  ModDataComponents.BOW_RISER_TYPE,  ModItems.BOW_RISER);
     populateSlot(params, output, ModRegistries.BOW_REST_TYPE_KEY,   ModDataComponents.BOW_REST_TYPE,   ModItems.BOW_REST);
+    populateSlot(params, output, ModRegistries.BOW_RISER_TYPE_KEY,  ModDataComponents.BOW_RISER_TYPE,  ModItems.BOW_RISER);
+    populateSlot(params, output, ModRegistries.BOW_STRING_TYPE_KEY,  ModDataComponents.BOW_STRING_TYPE,  ModItems.BOW_STRING);
   }
 
   private static void populateSlot(
