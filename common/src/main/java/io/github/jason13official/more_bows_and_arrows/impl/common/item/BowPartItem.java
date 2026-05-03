@@ -16,6 +16,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -48,8 +49,13 @@ public class BowPartItem extends Item {
       return super.useOn(context);
     }
 
-    if (context.getLevel().getBlockState(context.getClickedPos()).is(Blocks.FLETCHING_TABLE)) {
-      context.getPlayer().openMenu(new SimpleMenuProvider((i, inventory, player) -> new BowyerMenu(i, inventory), Component.literal("Menu Title Here lol")));
+    if (!context.getLevel().isClientSide()
+        && context.getLevel().getBlockState(context.getClickedPos()).is(Blocks.FLETCHING_TABLE)) {
+      ContainerLevelAccess access = ContainerLevelAccess.create(context.getLevel(), context.getClickedPos());
+      context.getPlayer().openMenu(new SimpleMenuProvider(
+          (i, inventory, player) -> new BowyerMenu(i, inventory, access),
+          Component.literal("Bowyer")
+      ));
     }
 
     return super.useOn(context);
