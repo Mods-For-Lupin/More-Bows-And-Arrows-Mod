@@ -7,6 +7,7 @@
     "BlockBehaviourMixin"
   ],
   "client": [
+    "AbstractClientPlayerMixin",
     "MinecraftMixin"
   ],
   "server": [],
