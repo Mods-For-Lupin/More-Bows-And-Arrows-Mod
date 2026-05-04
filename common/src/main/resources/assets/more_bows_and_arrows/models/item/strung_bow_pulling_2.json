@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "more_bows_and_arrows:item/strung_bow_pulling_2_limb",
+    "layer1": "more_bows_and_arrows:item/strung_bow_pulling_2_rest",
+    "layer2": "more_bows_and_arrows:item/strung_bow_pulling_2_riser",
+    "layer3": "more_bows_and_arrows:item/strung_bow_pulling_2_string",
+    "layer4": "more_bows_and_arrows:item/strung_bow_pulling_2_arrow"
+  }
+}

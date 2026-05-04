@@ -1,28 +1,58 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "more_bows_and_arrows:item/strung_bow",
-    "tints": [
-      {
-        "type": "more_bows_and_arrows:strung_bow",
-        "slot": 0,
-        "default": 0
+    "type": "minecraft:condition",
+    "property": "minecraft:using_item",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "more_bows_and_arrows:item/strung_bow",
+      "tints": [
+        {"type": "more_bows_and_arrows:strung_bow", "slot": 0, "default": 0},
+        {"type": "more_bows_and_arrows:strung_bow", "slot": 1, "default": 0},
+        {"type": "more_bows_and_arrows:strung_bow", "slot": 2, "default": 0},
+        {"type": "more_bows_and_arrows:strung_bow", "slot": 3, "default": 0}
+      ]
+    },
+    "on_true": {
+      "type": "minecraft:range_dispatch",
+      "property": "more_bows_and_arrows:bow/pull",
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "more_bows_and_arrows:item/strung_bow_pulling_0",
+        "tints": [
+          {"type": "more_bows_and_arrows:strung_bow", "slot": 0, "default": 0},
+          {"type": "more_bows_and_arrows:strung_bow", "slot": 1, "default": 0},
+          {"type": "more_bows_and_arrows:strung_bow", "slot": 2, "default": 0},
+          {"type": "more_bows_and_arrows:strung_bow", "slot": 3, "default": 0}
+        ]
       },
-      {
-        "type": "more_bows_and_arrows:strung_bow",
-        "slot": 1,
-        "default": 0
-      },
-      {
-        "type": "more_bows_and_arrows:strung_bow",
-        "slot": 2,
-        "default": 0
-      },
-      {
-        "type": "more_bows_and_arrows:strung_bow",
-        "slot": 3,
-        "default": 0
-      }
-    ]
+      "entries": [
+        {
+          "threshold": 0.65,
+          "model": {
+            "type": "minecraft:model",
+            "model": "more_bows_and_arrows:item/strung_bow_pulling_1",
+            "tints": [
+              {"type": "more_bows_and_arrows:strung_bow", "slot": 0, "default": 0},
+              {"type": "more_bows_and_arrows:strung_bow", "slot": 1, "default": 0},
+              {"type": "more_bows_and_arrows:strung_bow", "slot": 2, "default": 0},
+              {"type": "more_bows_and_arrows:strung_bow", "slot": 3, "default": 0}
+            ]
+          }
+        },
+        {
+          "threshold": 0.9,
+          "model": {
+            "type": "minecraft:model",
+            "model": "more_bows_and_arrows:item/strung_bow_pulling_2",
+            "tints": [
+              {"type": "more_bows_and_arrows:strung_bow", "slot": 0, "default": 0},
+              {"type": "more_bows_and_arrows:strung_bow", "slot": 1, "default": 0},
+              {"type": "more_bows_and_arrows:strung_bow", "slot": 2, "default": 0},
+              {"type": "more_bows_and_arrows:strung_bow", "slot": 3, "default": 0}
+            ]
+          }
+        }
+      ]
+    }
   }
 }
