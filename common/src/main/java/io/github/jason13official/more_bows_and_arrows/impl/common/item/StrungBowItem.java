@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -33,8 +36,12 @@ public class StrungBowItem extends BowItem {
     super(properties);
   }
 
-  public static float getPowerForTime(int timeHeld) {
-    float pow = (float) timeHeld / 20.0F;
+  public static float getPowerForTime(ItemStack stack, RegistryAccess registryAccess, int timeHeld) {
+
+    BowStats stats = BowAssembler.assemble(stack, registryAccess);
+    float drawSpeed = stats.get(BowStat.DRAW_SPEED);
+
+    float pow = (float) timeHeld / (20.0F * drawSpeed);
     pow = (pow * pow + pow * 2.0F) / 3.0F;
     if (pow > 1.0F) {
       pow = 1.0F;
@@ -76,7 +83,7 @@ public class StrungBowItem extends BowItem {
         return false;
       } else {
         int timeHeld = this.getUseDuration(itemStack, entity) - remainingTime;
-        float pow = getPowerForTime(timeHeld);
+        float pow = getPowerForTime(itemStack, level.registryAccess(), timeHeld);
         if ((double) pow < 0.1) {
           return false;
         } else {
@@ -101,6 +108,12 @@ public class StrungBowItem extends BowItem {
   @Override
   public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
     super.appendHoverText(stack, context, display, builder, tooltipFlag);
+
+    if (!Minecraft.getInstance().hasShiftDown()) {
+
+      builder.accept(Component.literal("Hold [SHIFT] to view stats.").withStyle(ChatFormatting.GRAY));
+      return;
+    }
 
     HolderLookup.Provider registries = context.registries();
     if (registries != null) {
